@@ -36,29 +36,45 @@ export default function App() {
   };
 
   return (
-    <React.Fragment>
-      <form onSubmit={handleSearch}>
+    <div className='container max-w-md mx-auto p-4 m-2 bg-purple-100 shadow-lg rounded'>
+      <h1 className='text-3xl text-grey-900 font-thin'>Hook News</h1>
+      <form onSubmit={handleSearch} className='mb-2'>
         <input 
           type="text" 
           onChange={event => setQuery(event.target.value)}
           value={query}
           ref={searchInputRef}
+          className='border p-1 rounded'
         />
-        <button type='submit'>Search</button>
-        <button type='button' onClick={handleClearSearch}>Clear</button>
+        <button 
+          type='submit' 
+          className='bg-orange-500 rounded m-1 p-1'>
+            Search
+        </button>
+        <button 
+          type='button' 
+          className='bg-teal-500 text-white p-1 rounded'
+          onClick={handleClearSearch}>
+            Clear
+        </button>
       </form>
       {loading ? (
-        <div>Loading results...</div>
+        <div className="font-bold text-orange-900">Loading results...</div>
       ) : (
-        <ul>
+        <ul className="list-reset leading-normal">
           {results.map(result => (
             <li key={result.objectID}>
-              <a href={result.url} alt={result.title}>{result.title}</a>
+              <a 
+                href={result.url} 
+                alt={result.title}
+                className="text-indigo-600 hover:text-indigo-900">
+                  {result.title}
+                </a>
             </li>
           ))}
         </ul>)}
 
-        {error && <div>{error.message}</div>}
-    </React.Fragment>
+        {error && <div className="text-red font-bold">{error.message}</div>}
+    </div>
   );
 }
