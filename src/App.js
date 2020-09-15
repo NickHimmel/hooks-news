@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('react hooks');
+  const searchInputRef = useRef()
 
   useEffect( () => {
     getResults();
@@ -15,11 +16,17 @@ export default function App() {
     );
 
     setResults(response.data.hits)
-  }
-  const handleSearch = events => {
-    events.preventDefault()
+  };
+
+  const handleSearch = event => {
+    event.preventDefault()
     getResults();
-  }
+  };
+
+  const handleClearSearch = () => {
+    setQuery("");
+    searchInputRef.current.focus()
+  };
 
   return (
     <React.Fragment>
@@ -28,8 +35,10 @@ export default function App() {
           type="text" 
           onChange={event => setQuery(event.target.value)}
           value={query}
+          ref={searchInputRef}
         />
         <button type='submit'>Search</button>
+        <button type='button' onClick={handleClearSearch}>Clear</button>
       </form>
       <ul>
         {results.map(result => (
